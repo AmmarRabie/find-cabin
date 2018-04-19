@@ -22,30 +22,7 @@ public class CabinTest {
 
     @Test
     public void isValid() throws Exception {
-        Cabin c = new Cabin(cableId);
-        boolean result = c.isValid();
-        assertEquals(result, false);
 
-        c.setName("jkfjngk");
-        c.setAddress("jkfjngk");
-        c.setLocation(new LatLng(564, 6546));
-
-        c.setCabinId("a2D");
-        result = c.isValid();
-        assertEquals(result, false);
-
-        c.setCabinId("548");
-        result = c.isValid();
-        assertEquals(result, true);
-
-
-        c.setCabinId("54as");
-        result = c.isValid();
-        assertEquals(result, false);
-
-        c.setCabinId("21395");
-        result = c.isValid();
-        assertEquals(result, false);
 
     }
 

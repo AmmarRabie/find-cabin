@@ -1,11 +1,5 @@
 package com.custom.findcabine;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
-import com.custom.findcabine.data.CabineContract;
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
 
 /**
@@ -17,12 +11,7 @@ public class AppUtil {
     }
 
 
-    public static ArrayList<Cabin> insertInitialCabins(Context context) {
-
-        SharedPreferences defaultListOptions =
-                context.getSharedPreferences("default_list_options", Context.MODE_PRIVATE);
-        boolean is_inserted = defaultListOptions.getBoolean("is_inserted", false);
-
+    public static ArrayList<Cabin> getInitialCabins() {
         ArrayList<Cabin> cabinesList = new ArrayList<>();
         String[] ids = {
                 "1,1","1,2","1,3","1,4",
@@ -40,29 +29,7 @@ public class AppUtil {
             Cabin currCabin = new Cabin(ids[i],addresses[i]);
             cabinesList.add(currCabin);
         }
-        if (!is_inserted)
-            insertList(context, cabinesList);
         return cabinesList;
     }
 
-    public static void addLocationToList(ArrayList<Cabin> list, LatLng location) {
-
-        for (int i = 0; i < list.size(); i++) {
-            list.get(i).setLocation(location);
-        }
-    }
-
-
-    private static void insertList(Context context, ArrayList<Cabin> cabinesList) {
-        // [Optimization] TODO: don't loop over the list use bulkInsert() instead
-
-        for (int i = 0; i < cabinesList.size(); i++) {
-            Cabin thisCabin = cabinesList.get(i);
-            context.getContentResolver().
-                    insert(CabineContract.CabineEntry.CONTENT_URI, thisCabin.toContentValues());
-        }
-
-        context.getSharedPreferences("default_list_options", Context.MODE_PRIVATE).
-                edit().putBoolean("is_inserted", true).apply();
-    }
 }

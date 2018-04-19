@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tiles_frame_layout"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context="com.custom.findcabine.MapTestActivity">
 
-    <EditText
-        android:cabinId="@+cabinId/test_location"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        android:hint="Location"
-        app:layout_constraintBottom_toTopOf="@+cabinId/mapActivity_map"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.custom.findcabine.CabinTextRepresentation
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.custom.findcabine.CabinTextRepresentation>
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:cabinId="@+cabinId/mapActivity_map"
+        android:id="@+id/mapActivity_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -32,7 +30,6 @@
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toBottomOf="@+cabinId/test_location"
         map:mapType="normal"
         map:uiCompass="false"
         map:uiRotateGestures="true"
@@ -42,4 +39,5 @@
         map:uiZoomGestures="true"
         tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
 
-</android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

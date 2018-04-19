@@ -27,6 +27,13 @@
             </intent-filter>
 
         </activity>
+
+
+        <activity android:name=".MapTestActivity" android:exported="true">
+
+
+        </activity>
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -38,18 +45,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <activity android:name=".AddCabineActivity"></activity>
-
-        <provider
-            android:name=".data.CabineProvider"
-            android:authorities="com.custom.findcabine.cabines"
-            android:exported="false" />
-
-        <activity android:name=".MapTestActivity">
-
-
-        </activity>
     </application>
 
 </manifest>

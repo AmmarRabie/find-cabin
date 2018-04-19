@@ -1,10 +1,6 @@
 package com.custom.findcabine;
 
-import android.content.ContentValues;
-
-import com.custom.findcabine.data.CabineContract.CabineEntry;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 
 /**
  * Created by AmmarRabie on 19/03/2018.
@@ -15,16 +11,16 @@ public class Cabin {
     private String cabinId;
     private String address;
     private LatLng location;
-    private Marker marker;
-
+    private CableType type;
 
     public Cabin() {
     }
 
 
-    public Cabin(String cableId, String cabinId, String address, LatLng location) {
+    public Cabin(String cableId, String cabinId, CableType type, String address, LatLng location) {
         this.cableId = cableId;
         this.cabinId = cabinId;
+        this.type = type;
         this.address = address;
         this.location = location;
     }
@@ -44,39 +40,12 @@ public class Cabin {
         this.address = address;
     }
 
-    public boolean isMarkedOnMap() {
-        return marker != null;
-    }
-
-    /**
-     * @return true if the marker is actually exist, false if it not associated with any map
-     */
-    public boolean removeFromMap() {
-        if (isMarkedOnMap()) {
-            marker.remove();
-            marker = null;
-            return true;
-        }
-        return false;
-    }
-
-    public ContentValues toContentValues() {
-        ContentValues values = new ContentValues();
-        values.put(CabineEntry.COLUMN_CABINE_DESC, getAddress());
-        values.put(CabineEntry.COLUMN_CABINE_LATITUDE, getLocation().latitude);
-        values.put(CabineEntry.COLUMN_CABINE_LONGITUDE, getLocation().longitude);
-        values.put(CabineEntry._ID, getCabinId());
-
-        return values;
-    }
-
     public boolean isValid() {
-        if (cabinId == null)
+        if (cableId == null || cabinId == null)
             return false;
 
         return cabinId.matches("[0-9]{3,}") && cabinId.length() == 3;
     }
-
 
 
     public String getCableId() {
@@ -87,8 +56,7 @@ public class Cabin {
         return cabinId;
     }
 
-    public String getFullId()
-    {
+    public String getFullId() {
         return cableId + "," + cabinId;
     }
 
@@ -108,11 +76,7 @@ public class Cabin {
         this.location = location;
     }
 
-    public void setMarker(Marker marker) {
-        this.marker = marker;
-    }
-
-    public Marker getMarker() {
-        return marker;
+    public CableType getType() {
+        return type;
     }
 }
