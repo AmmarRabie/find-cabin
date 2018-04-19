@@ -156,7 +156,7 @@ public class CabineProvider extends ContentProvider {
         String desc = values.getAsString(CabineEntry.COLUMN_CABINE_DESC);
         String _id = values.getAsString(CabineEntry._ID);
 *//*        if (name == null) {
-            throw new IllegalArgumentException("Cabine requires a name");
+            throw new IllegalArgumentException("Cabin requires a name");
         }*//*
 
         // Check that the gender is valid

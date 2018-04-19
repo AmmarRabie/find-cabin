@@ -8,7 +8,7 @@
     tools:layout_editor_absoluteY="81dp">
 
     <EditText
-        android:id="@+id/addCabineActivity_name"
+        android:cabinId="@+cabinId/addCabineActivity_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -20,51 +20,52 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/addCabineActivity_desc"
+        android:cabinId="@+cabinId/addCabineActivity_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="28dp"
         android:ems="10"
-        android:hint="desc"
+        android:hint="address"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addCabineActivity_name" />
+        app:layout_constraintTop_toBottomOf="@+cabinId/addCabineActivity_name" />
 
     <EditText
-        android:id="@+id/addCabineActivity_id"
+        android:cabinId="@+cabinId/addCabineActivity_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="id    "
+        android:hint="cabinId"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addCabineActivity_desc" />
+        app:layout_constraintTop_toBottomOf="@+cabinId/addCabineActivity_desc" />
 
     <Button
-        android:id="@+id/addCabineActivity_takeLocation"
+        android:cabinId="@+cabinId/addCabineActivity_takeLocation"
+        android:onClick="onTakeLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:text="take location"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintBottom_toTopOf="@+cabinId/textView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/addCabineActivity_location"
+        android:cabinId="@+cabinId/addCabineActivity_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="78dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="@+id/addCabineActivity_takeLocation"
-        app:layout_constraintTop_toBottomOf="@+id/addCabineActivity_takeLocation"
+        app:layout_constraintStart_toStartOf="@+cabinId/addCabineActivity_takeLocation"
+        app:layout_constraintTop_toBottomOf="@+cabinId/addCabineActivity_takeLocation"
         tools:text="4564864-6645654" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:cabinId="@+cabinId/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="164dp"
@@ -73,5 +74,5 @@
         android:text="current location"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/addCabineActivity_id" />
+        app:layout_constraintTop_toTopOf="@+cabinId/addCabineActivity_id" />
 </android.support.constraint.ConstraintLayout>

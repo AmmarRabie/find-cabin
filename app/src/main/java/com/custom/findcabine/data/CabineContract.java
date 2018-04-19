@@ -82,7 +82,7 @@ public final class CabineContract {
          * SQL statement to create this pets table
          */
         public static final String SQL_CREATE_CABINES_TABLE = "CREATE TABLE " + TABLE_NAME + "("
-                + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + _ID + " TEXT PRIMARY KEY, "
                 + COLUMN_CABINE_NAME + " TEXT NOT NULL, "
                 + COLUMN_CABINE_DESC + " TEXT, "
                 + COLUMN_CABINE_LATITUDE + " REAL NOT NULL, "
