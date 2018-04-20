@@ -20,7 +20,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 public class MainActivity extends AppCompatActivity implements
         OnMapReadyCallback
         , AAH_FabulousFragment.Callbacks
-, SearchAnimatedFragment.FragCallback {
+ {
 
     //
     private SearchAnimatedFragment dialogFrag;
@@ -62,8 +62,7 @@ public class MainActivity extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialogFrag.show(getSupportFragmentManager(), dialogFrag.getTag());
-                lastPositionBeforeSearch = cabins.getCurrSelected();
+                showSearchDialog();
             }
         });
 
@@ -102,7 +101,8 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void showSearchDialog() {
-        fab.callOnClick();
+        dialogFrag.show(getSupportFragmentManager(),dialogFrag.getTag());
+        lastPositionBeforeSearch = cabins.getCurrSelected();
     }
 
 
@@ -119,10 +119,10 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private int lastPositionBeforeSearch;
-    @Override
+/*    @Override
     public void onIdValid(String fullId) {
         cabins.setCurrSelected(fullId);
-    }
+    }*/
 
 
     public class CabinPagerAdapter extends FragmentPagerAdapter {
