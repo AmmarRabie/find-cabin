@@ -38,7 +38,7 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     private boolean isFullIdValid = false;
     private boolean isCableIdValid = false;
     private boolean commaInserted = false;
-//    private FragCallback callback;
+    private FragCallback callback;
 
 
     public SearchAnimatedFragment() {
@@ -62,7 +62,6 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
         mFullIdParentView = contentView.findViewById(R.id.fullIdParedt);
         typeView = contentView.findViewById(R.id.dfragPickId_showTypeView);
         changeTypeView = contentView.findViewById(R.id.changeTypeView);
-//        callback = ((FragCallback) getArguments().getSerializable("callback"));
 
         changeTypeView.setOnClickListener(this);
         contentView.findViewById(R.id.num0).setOnClickListener(this);
@@ -97,14 +96,14 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     }
 
 
-/*    @Override
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-*//*        if (!(getActivity() instanceof FragCallback)) {
+        if (!(getActivity() instanceof FragCallback)) {
             throw new RuntimeException("activity should implement SearchAnimatedFragment.FragCallback");
         }
-        callback = ((FragCallback) getActivity());*//*
-    }*/
+        callback = ((FragCallback) getActivity());
+    }
 
     private void updateToCopper() {
         typeView.setText(CableType.COPPER.name());
@@ -139,7 +138,7 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
         mFullIdParentView.setBackground(getResources().getDrawable(R.drawable.num_valid));
         commaDoneView.setEnabled(true); // make the done btn clickable
         commaDoneView.setClickable(true); // make the done btn clickable
-//        callback.onIdValid(fullIdSubject.currCableId + "," + fullIdSubject.currCabinId);
+        callback.onIdValid(fullIdSubject.currCableId + "," + fullIdSubject.currCabinId);
     }
 
     @Override
@@ -338,8 +337,8 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     }
 
 
-/*    public interface FragCallback
+    public interface FragCallback
     {
         void onIdValid(String fullId);
-    }*/
+    }
 }

@@ -20,6 +20,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 public class MainActivity extends AppCompatActivity implements
         OnMapReadyCallback
         , AAH_FabulousFragment.Callbacks
+    , SearchAnimatedFragment.FragCallback
+
  {
 
     //
@@ -119,10 +121,11 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private int lastPositionBeforeSearch;
-/*    @Override
+
+    @Override
     public void onIdValid(String fullId) {
         cabins.setCurrSelected(fullId);
-    }*/
+    }
 
 
     public class CabinPagerAdapter extends FragmentPagerAdapter {
