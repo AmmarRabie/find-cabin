@@ -1,24 +1,29 @@
 package com.custom.findcabine;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
+import com.allattentionhere.fabulousfilter.AAH_FabulousFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
 public class MainActivity extends AppCompatActivity implements
-        OnMapReadyCallback {
+        OnMapReadyCallback
+        , AAH_FabulousFragment.Callbacks {
 
-    private String mCurrCabinNumber = "";
-
-    // views
+    //
+    private SearchAnimatedFragment dialogFrag;
+    private FloatingActionButton fab;
     private CabinTextRepresentation mTextRepresentationView;
     private TextObserver textObserver;
     private MapObserver mapObserver;
@@ -35,10 +40,23 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextRepresentationView = findViewById(R.id.mainActivity_textRepresentation);
+        fab = (FloatingActionButton) findViewById(R.id.mainActivity_fab);
+//        mTextRepresentationView = findViewById(R.id.mainActivity_textRepresentation);
+        ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
+
         textObserver = new TextObserver(mTextRepresentationView);
 
+        dialogFrag = SearchAnimatedFragment.newInstance();
+        dialogFrag.setParentFab(fab);
+
         cabins = new CabinsSubject(AppUtil.getInitialCabins());
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogFrag.show(getSupportFragmentManager(), dialogFrag.getTag());
+            }
+        });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mainActivity_map);
@@ -47,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements
         findViewById(R.id.mainActivity_fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "djksfnk", Toast.LENGTH_SHORT).show();
+                showSearchDialog();
             }
         });
     }
@@ -55,38 +73,12 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mapObserver = new MapObserver(googleMap);
-
-        Intent intent = new Intent(this,MapTestActivity.class);
-        startActivity(intent);
     }
 
-
-
-
-    public void onNumberClicked(View view) {
-        String numberClicked = ((Button) view).getText().toString();
-        appendCabineNumber(numberClicked);
-    }
 
     public void onClearClick(View view) {
         setCabineNumber("");
     }
-
-    private void appendCabineNumber(String s) {
-        if (mCurrCabinNumber.length() == 4) {
-            Toast.makeText(this, "clear the data first", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        mCurrCabinNumber += s;
-//        mNumberView.setText(mCurrCabinNumber);
-
-        if (mCurrCabinNumber.length() == 3) {
-//            showCabineInfoIfExist(mCurrCabinNumber);
-        }
-
-    }
-
 
 
     private void setCabineNumber(String s) {
@@ -102,8 +94,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.action_searchById:
                 showSearchDialog();
                 return true;
@@ -112,26 +103,45 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void showSearchDialog() {
-
-    }
-
-    private void hideNumbers() {
-        if (!isNumbersVisible)
-            return;
-//        findViewById(R.id.mainActivity_numbersContainer).setVisibility(View.GONE);
-        isNumbersVisible = false;
-    }
-
-    private void showNumbers() {
-        if (isNumbersVisible)
-            return;
-//        findViewById(R.id.mainActivity_numbersContainer).setVisibility(View.VISIBLE);
-        isNumbersVisible = true;
+        dialogFrag.show(getSupportFragmentManager(), dialogFrag.getTag());
     }
 
 
-    public void showNumbers(View v) {
-        showNumbers();
+    @Override
+    public void onResult(Object result) {
+        Toast.makeText(this, result.toString(), Toast.LENGTH_LONG).show();
+    }
+
+
+    public class CabinPagerAdapter extends FragmentPagerAdapter {
+        private int NUM_ITEMS = 3;
+
+        public CabinPagerAdapter(FragmentManager fragmentManager, int size) {
+            super(fragmentManager);
+            NUM_ITEMS = size;
+        }
+
+        // Returns total number of pages.
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+
+        // Returns the fragment to display for a particular page.
+        @Override
+        public Fragment getItem(int position) {
+            if (position != cabins.getCurrSelected())
+                cabins.setCurrSelected(position);
+
+            return PagerFragment.newInstance(cabins.getCabinAt(position));
+        }
+
+        // Returns the page title for the top indicator
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "Tab " + position;
+        }
+
     }
 
 }

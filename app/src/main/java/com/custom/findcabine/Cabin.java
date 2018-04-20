@@ -2,11 +2,13 @@ package com.custom.findcabine;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.Serializable;
+
 /**
  * Created by AmmarRabie on 19/03/2018.
  */
 
-public class Cabin {
+public class Cabin implements Serializable{
     private String cableId;
     private String cabinId;
     private String address;
@@ -29,6 +31,12 @@ public class Cabin {
     public Cabin(String fullId, String address, LatLng location) {
         this(fullId, address);
         this.location = location;
+    }
+
+    public Cabin(String fullId, String address, LatLng location, CableType type) {
+        this(fullId, address);
+        this.location = location;
+        this.type = type;
     }
 
     public Cabin(String fullId, String address) {

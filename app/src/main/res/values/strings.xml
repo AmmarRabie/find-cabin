@@ -8,5 +8,8 @@
 
     <string name="intentKey_cabineId">cabine_id</string>
     <string name="search">search</string>
+    <string name="s_cableId">Cable Id</string>
+    <string name="copper">COPPER</string>
+    <string name="fiber">FIBER</string>
 
 </resources>

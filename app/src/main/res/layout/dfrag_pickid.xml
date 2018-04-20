@@ -1,7 +1,237 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<com.allattentionhere.fabulousfilter.AAH_FilterView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/mainDialogView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/fbutton_color_transparent"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp">
+
+        <RelativeLayout
+            android:id="@+id/dfragPickId_expandableView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/dfragPickId_showTypeView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:gravity="start"
+                android:text="@string/copper"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/color_CooperColor" />
+
+            <LinearLayout
+                android:id="@+id/fullIdParedt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="18dp"
+                android:background="@drawable/num_invalid"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+
+
+
+                <TextView
+                    android:id="@+id/dfragPickId_currCableId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/s_cableId"
+                    android:textColor="@color/colorAccent"
+                    android:textAppearance="?android:textAppearanceLarge" />
+
+                <TextView
+                    android:id="@+id/dfragPickId_currCabinId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textColor="#000000" />
+
+
+            </LinearLayout>
+
+
+            <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/GridLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fullIdParedt"
+                android:layout_centerHorizontal="true"
+                android:columnCount="3"
+                android:rowCount="4"
+                android:textColor="@color/colorNum">
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/num1"
+                    android:layout_margin="8dp"
+                    android:text="1"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/colorNum"
+                    fbutton:cornerRadius="5dp"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="7dp" />
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/num2"
+                    android:layout_margin="8dp"
+                    android:text="2"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/colorNum"
+                    fbutton:cornerRadius="5dp"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="7dp" />
+
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/num3"
+                    android:layout_margin="8dp"
+                    android:text="3"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/colorNum"
+                    fbutton:cornerRadius="5dp"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="7dp" />
+
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/num4"
+                    android:layout_margin="8dp"
+                    android:text="4"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/colorNum"
+                    fbutton:cornerRadius="5dp"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="7dp" />
+
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/num5"
+                    android:layout_margin="8dp"
+                    android:text="5"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/colorNum"
+                    fbutton:cornerRadius="5dp"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="7dp" />
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/num6"
+                    android:layout_margin="8dp"
+                    android:text="6"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/colorNum"
+                    fbutton:cornerRadius="5dp"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="7dp" />
+
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/num7"
+                    android:layout_margin="8dp"
+                    android:text="7"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/colorNum"
+                    fbutton:cornerRadius="5dp"
+
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="7dp" />
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/num8"
+                    android:layout_margin="8dp"
+                    android:text="8"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/colorNum"
+                    fbutton:cornerRadius="5dp"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="7dp" />
+
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/num9"
+                    android:layout_margin="8dp"
+                    android:text="9"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/colorNum"
+                    fbutton:cornerRadius="5dp"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="7dp" />
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/changeTypeView"
+                    android:layout_margin="8dp"
+                    android:text="@string/fiber"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/colorNum"
+                    android:textStyle="bold"
+                    fbutton:fButtonColor="@color/fbutton_color_wet_asphalt"
+                    fbutton:cornerRadius="5dp"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="7dp" />
+
+                <!--<Space />-->
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/num0"
+                    android:layout_margin="8dp"
+                    android:text="0"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/colorNum"
+                    fbutton:cornerRadius="5dp"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="7dp" />
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/clearNumbersView"
+                    android:layout_margin="8dp"
+                    android:text="*"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/colorNum"
+                    fbutton:cornerRadius="5dp"
+                    fbutton:shadowEnabled="true"
+                    fbutton:shadowHeight="7dp" />
+            </GridLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/staticDialogView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <ImageView
+                android:id="@+id/dfragPickId_close"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_gravity="start"
+                android:layout_weight="1"
+                android:background="@drawable/states_fab_button"
+                android:gravity="center"
+                android:src="@drawable/fc_close"
+                android:tint="@color/white" />
+
+            <ImageView
+                android:id="@+id/imgbtn_commaDone"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/states_fab_button"
+                android:gravity="center"
+                android:src="@drawable/btn_comma"
+                android:tint="@color/white" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</com.allattentionhere.fabulousfilter.AAH_FilterView>
