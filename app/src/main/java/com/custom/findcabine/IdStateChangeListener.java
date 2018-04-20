@@ -20,4 +20,11 @@ interface IdStateChangeListener {
      */
     void onFullIdInvalid();
 
+
+/*    void onCommaInserted();
+
+
+    void onCommaDeleted();*/
+
+
 }

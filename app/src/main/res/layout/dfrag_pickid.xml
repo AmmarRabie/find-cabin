@@ -193,7 +193,7 @@
                     fbutton:shadowHeight="7dp" />
 
                 <info.hoang8f.widget.FButton
-                    android:id="@+id/clearNumbersView"
+                    android:id="@+id/dfragPickId_clearNumbers"
                     android:layout_margin="8dp"
                     android:text="*"
                     android:textAppearance="?android:textAppearanceMedium"

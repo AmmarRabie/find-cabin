@@ -19,42 +19,51 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 public class MainActivity extends AppCompatActivity implements
         OnMapReadyCallback
-        , AAH_FabulousFragment.Callbacks {
+        , AAH_FabulousFragment.Callbacks
+, SearchAnimatedFragment.FragCallback {
 
     //
     private SearchAnimatedFragment dialogFrag;
     private FloatingActionButton fab;
-    private CabinTextRepresentation mTextRepresentationView;
+    private ViewPager mViewPager;
+    private CabinPagerAdapter mCabinPagerAdapter;
     private TextObserver textObserver;
     private MapObserver mapObserver;
-
     private CabinsSubject cabins;
 
-
-    private Cabin cabin;
-
-    private boolean isNumbersVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        cabins = new CabinsSubject(AppUtil.getInitialCabins());
 
         fab = (FloatingActionButton) findViewById(R.id.mainActivity_fab);
 //        mTextRepresentationView = findViewById(R.id.mainActivity_textRepresentation);
-        ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
+        mViewPager = (ViewPager) findViewById(R.id.vpPager);
 
-        textObserver = new TextObserver(mTextRepresentationView);
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                cabins.setCurrSelected(position);
+            }
+        });
+
+        mCabinPagerAdapter = new CabinPagerAdapter(getSupportFragmentManager(), AppUtil.getInitialCabins().size());
+        mViewPager.setAdapter(mCabinPagerAdapter);
+
+        textObserver = new TextObserver(cabins, mViewPager);
 
         dialogFrag = SearchAnimatedFragment.newInstance();
         dialogFrag.setParentFab(fab);
 
-        cabins = new CabinsSubject(AppUtil.getInitialCabins());
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialogFrag.show(getSupportFragmentManager(), dialogFrag.getTag());
+                lastPositionBeforeSearch = cabins.getCurrSelected();
             }
         });
 
@@ -72,19 +81,9 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mapObserver = new MapObserver(googleMap);
+        mapObserver = new MapObserver(cabins, googleMap);
     }
 
-
-    public void onClearClick(View view) {
-        setCabineNumber("");
-    }
-
-
-    private void setCabineNumber(String s) {
-        mCurrCabinNumber = s;
-//        mNumberView.setText(mCurrCabinNumber);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -103,13 +102,26 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void showSearchDialog() {
-        dialogFrag.show(getSupportFragmentManager(), dialogFrag.getTag());
+        fab.callOnClick();
     }
 
 
     @Override
     public void onResult(Object result) {
-        Toast.makeText(this, result.toString(), Toast.LENGTH_LONG).show();
+        String resultedString = result.toString();
+        Toast.makeText(this, resultedString, Toast.LENGTH_LONG).show();
+        if (resultedString.equals("closed") || resultedString.equals("swiped_down"))
+        {
+            cabins.setCurrSelected(lastPositionBeforeSearch);
+        }
+        // resultedString = the id of the search
+//        cabins.setCurrSelected(resultedString);
+    }
+
+    private int lastPositionBeforeSearch;
+    @Override
+    public void onIdValid(String fullId) {
+        cabins.setCurrSelected(fullId);
     }
 
 
@@ -124,23 +136,21 @@ public class MainActivity extends AppCompatActivity implements
         // Returns total number of pages.
         @Override
         public int getCount() {
-            return NUM_ITEMS;
+            return NUM_ITEMS - 1;
         }
 
         // Returns the fragment to display for a particular page.
         @Override
         public Fragment getItem(int position) {
-            if (position != cabins.getCurrSelected())
-                cabins.setCurrSelected(position);
-
             return PagerFragment.newInstance(cabins.getCabinAt(position));
         }
 
         // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
-            return "Tab " + position;
+            return "Cabin " + (position + 1);
         }
+
 
     }
 

@@ -6,6 +6,7 @@ package com.custom.findcabine;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -15,15 +16,18 @@ import java.util.ArrayList;
  */
 public class CabinsSubject {
 
+    private static final String TAG = "CabinsSubject";
+
     private ArrayList<Cabin> cabins;
 
-    private ArrayList<CabinObserver> observers = new ArrayList<>();
+    private ArrayList<CabinObserver> observers;
 
     private int currSelected;
 
 
     public CabinsSubject(ArrayList<Cabin> cabins) {
         this.cabins = cabins;
+        observers = new ArrayList<>();
     }
 
     void attachObserver(CabinObserver observer) {
@@ -35,13 +39,17 @@ public class CabinsSubject {
         return currSelected;
     }
 
-    public boolean setCurrSelected(int selected) {
+    public void setCurrSelected(int selected) {
 
-        if (selected >= cabins.size()) return false;
+        if (selected >= cabins.size()) return;
         this.currSelected = selected;
         notifyAllObservers();
-        return true;
     }
+
+    public void setCurrSelected(String fullId) {
+        setCurrSelected(getPositionOf(fullId));
+    }
+
 
     public void attach(CabinObserver observer) {
         observers.add(observer);
@@ -62,7 +70,18 @@ public class CabinsSubject {
     public @Nullable
     Cabin getCabinAt(int index) {
         if (index >= cabins.size()) return null;
-        return cabins.get(currSelected);
+        return cabins.get(index);
+    }
+
+
+    public int getPositionOf(String cabinId) {
+        for (int i = 0; i < cabins.size(); i++) {
+            if (cabins.get(i).getFullId().equals(cabinId)) {
+                return i;
+            }
+        }
+        Log.w(TAG, "getPositionOf: the cabinId " + cabinId + "not exist");
+        return -1;
     }
 
 

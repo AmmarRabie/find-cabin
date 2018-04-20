@@ -1,6 +1,6 @@
 package com.custom.findcabine;
 
-import android.widget.TextView;
+import android.support.v4.view.ViewPager;
 
 /**
  * Created by AmmarRabie on 19/04/2018.
@@ -8,17 +8,16 @@ import android.widget.TextView;
 
 public class TextObserver extends CabinObserver {
 
-    private CabinTextRepresentation mTextView;
+    private ViewPager mTextView;
 
-    public TextObserver(CabinTextRepresentation textView) {
+    public TextObserver(CabinsSubject subject_, ViewPager textView) {
+        super(subject_);
+        subject.attach(this);
         this.mTextView = textView;
     }
 
     @Override
     void update() {
-        Cabin updatedCabin = subject.getCurrCabin();
-        mTextView.setAddress(updatedCabin.getAddress());
-        mTextView.setId(updatedCabin.getFullId());
-        mTextView.setType(CableType.FIBER);
+        mTextView.setCurrentItem(subject.getCurrSelected(), true);
     }
 }

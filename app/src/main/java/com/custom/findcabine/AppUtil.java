@@ -19,7 +19,7 @@ public class AppUtil {
                 "1,1", "1,2", "1,3", "1,4",
                 "2,1", "2,2", "2,3", "2,4",
                 "3,1", "3,2", "3,3", "3,4",
-                "4,1", "4,2", "4,3", "4,4",};
+                "4,1", "4,2", "4,3", "4,4"};
         String[] addresses = {
                 "ش-الامير من المساكن", "ش-الشهيد من المساكن", "ش-الرحمن من المساكن", "ش-ابراهيم محمود من المساكن",
                 "ش-ابوبكرالصديق مساكن", "ش- محمد نافع  مساكن", "ش-مسجد الرحمة المساكن", "ش- حمد المساكن",
@@ -39,7 +39,7 @@ public class AppUtil {
                 new LatLng(319,753), new LatLng(462,46), new LatLng(762,128), new LatLng(5465,564),
                 new LatLng(138,456), new LatLng(7654,46), new LatLng(648,133), new LatLng(2146,467),};
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < ids.length; i++) {
             Cabin currCabin = new Cabin(ids[i], addresses[i], locations[i],types[i]);
             cabinesList.add(currCabin);
         }

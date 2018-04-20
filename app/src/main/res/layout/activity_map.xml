@@ -55,18 +55,4 @@
         tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
 
 
-    <info.hoang8f.widget.FButton
-        xmlns:fbutton="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/clearNumbersView"
-        android:layout_margin="8dp"
-        android:text="*"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@color/colorNum"
-        fbutton:cornerRadius="5dp"
-        fbutton:shadowEnabled="true"
-        fbutton:shadowHeight="7dp"
-        fbutton:fButtonColor="@color/fbutton_default_color"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
-
 </LinearLayout>

@@ -1,7 +1,8 @@
 package com.custom.findcabine;
 
 import android.app.Dialog;
-import android.util.TypedValue;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,8 +22,10 @@ import info.hoang8f.widget.FButton;
 public class SearchAnimatedFragment extends AAH_FabulousFragment implements
         View.OnClickListener
         , IdStateChangeListener {
-    private String mCurrCabinNumber;
+    private static final String TAG = "SearchAnimatedFragment";
+
     private static int shadowHeight;
+    private String mCurrCabinNumber;
     private TextView mCableIdView;
     private TextView mCabinIdView;
     private ViewGroup mFullIdParentView;
@@ -35,12 +38,18 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     private boolean isFullIdValid = false;
     private boolean isCableIdValid = false;
     private boolean commaInserted = false;
+    private FragCallback callback;
 
-    public static SearchAnimatedFragment newInstance() {
-        return new SearchAnimatedFragment();
-    }
 
     public SearchAnimatedFragment() {
+    }
+
+    public static SearchAnimatedFragment newInstance() {
+        SearchAnimatedFragment fragment = new SearchAnimatedFragment();
+
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -53,6 +62,7 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
         mFullIdParentView = contentView.findViewById(R.id.fullIdParedt);
         typeView = contentView.findViewById(R.id.dfragPickId_showTypeView);
         changeTypeView = contentView.findViewById(R.id.changeTypeView);
+        callback = ((FragCallback) getArguments().getSerializable("callback"));
 
         changeTypeView.setOnClickListener(this);
         contentView.findViewById(R.id.num0).setOnClickListener(this);
@@ -65,6 +75,7 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
         contentView.findViewById(R.id.num7).setOnClickListener(this);
         contentView.findViewById(R.id.num8).setOnClickListener(this);
         contentView.findViewById(R.id.num9).setOnClickListener(this);
+        contentView.findViewById(R.id.dfragPickId_clearNumbers).setOnClickListener(this);
         initCommaDoneViewBtn();
         initCloseDialogBtn();
 
@@ -77,7 +88,7 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
 
         //params to set
         setAnimationDuration(450); //optional; default 500ms
-        setPeekHeight(350); // optional; default 400dp
+        setPeekHeight(400); // optional; default 400dp
         setCallbacks((Callbacks) getActivity()); //optional; to get back result
         setViewgroupStatic(contentView.findViewById(R.id.staticDialogView));
         setViewMain(contentView.findViewById(R.id.mainDialogView));
@@ -85,23 +96,15 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
         super.setupDialog(dialog, style); //call super at last
     }
 
-    private void insertComma() {
-        if (commaInserted)
-            return;
-        if (isCableIdJustValid) {
 
-            commaInserted = true;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (!(getActivity() instanceof FragCallback)) {
+            throw new RuntimeException("activity should implement SearchAnimatedFragment.FragCallback");
         }
-
+        callback = ((FragCallback) getActivity());
     }
-
-
-    private String getParsedId() {
-        String[] ids = mCableIdView.getText().toString().split(", ");
-        return ids[0] + "," + ids[1];
-
-    }
-
 
     private void updateToCopper() {
         typeView.setText(CableType.COPPER.name());
@@ -114,33 +117,43 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     }
 
     private void onClearNumbersClicked(View view) {
+        mCableIdView.setText("");
+        mCabinIdView.setText("");
+        commaDoneView.setImageResource(R.drawable.btn_comma);
+        commaDoneView.setClickable(false);
+        commaDoneView.setEnabled(false);
         fullIdSubject = new FullIdSubject(AppUtil.getInitialCabins(),
-                this,mCableIdView, mCabinIdView, getCurrentType());
+                this, mCableIdView, mCabinIdView, getCurrentType());
     }
 
     @Override
     public void onCableIdValid() {
+        Toast.makeText(getContext(), "cable id valid", Toast.LENGTH_SHORT).show();
         commaDoneView.setEnabled(true);
-        commaDoneView.setImageResource(R.drawable.ic_done);
+        commaDoneView.setClickable(true);
     }
 
 
     @Override
     public void onFullIdValid() {
         mFullIdParentView.setBackground(getResources().getDrawable(R.drawable.num_valid));
-        commaDoneView.setEnabled(true);
+        commaDoneView.setEnabled(true); // make the done btn clickable
+        commaDoneView.setClickable(true); // make the done btn clickable
+        callback.onIdValid(fullIdSubject.currCableId + "," + fullIdSubject.currCabinId);
     }
 
     @Override
     public void onCableIdInvalid() {
-        Toast.makeText(getContext(), "cable id valid", Toast.LENGTH_SHORT).show();
-        commaDoneView.setImageResource(R.drawable.btn_comma);
+        Toast.makeText(getContext(), "cable id invalid", Toast.LENGTH_SHORT).show();
+        commaDoneView.setEnabled(false); // make comma btn not clickable
+        commaDoneView.setClickable(false); // make comma btn not clickable
     }
 
     @Override
     public void onFullIdInvalid() {
         mFullIdParentView.setBackground(getResources().getDrawable(R.drawable.num_invalid));
-        commaDoneView.setEnabled(false);
+        commaDoneView.setEnabled(false); // make done btn not clickable
+        commaDoneView.setClickable(false); // make done btn not clickable
     }
 
     private void onNumberClicked(String s) {
@@ -170,7 +183,7 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
             case R.id.changeTypeView:
                 onChangeTypeClick(view);
                 break;
-            case R.id.clearNumbersView:
+            case R.id.dfragPickId_clearNumbers:
                 onClearNumbersClicked(view);
                 break;
             default:
@@ -185,12 +198,15 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
             public void onClick(View view) {
                 if (view.isEnabled()) {
                     if (fullIdSubject.isFullIdValid())
-                        closeFilter(fullIdSubject.currCableId+ "," + fullIdSubject.currCabinId);
+                        closeFilter(fullIdSubject.currCableId + "," + fullIdSubject.currCabinId);
                     else if (fullIdSubject.insertComma()) {
-                        commaDoneView.setImageResource(R.drawable.ic_done);
+                        commaDoneView.setImageResource(R.drawable.ic_mydone);
                         commaDoneView.setEnabled(false);
+                        commaDoneView.setClickable(false);
+                    } else {
+                        Log.e(TAG, "onClick: full id is not valid and can't insert comma or exit");
                     }
-                } else    // the bnt is not enabled
+                } else if (!view.isClickable())   // the bnt is not enabled
                 {
                     if (isCableIdValid)
                         Toast.makeText(getContext(), "cabin Id not valid", Toast.LENGTH_LONG).show();
@@ -199,6 +215,7 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
                 }
             }
         });
+        commaDoneView.setEnabled(false);
     }
 
     private void initCloseDialogBtn() {
@@ -212,6 +229,18 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
 
     private CableType getCurrentType() {
         return changeTypeView.isShadowEnabled() ? CableType.COPPER : CableType.FIBER;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().findViewById(R.id.mainActivity_map).setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().findViewById(R.id.mainActivity_map).setVisibility(View.VISIBLE);
     }
 
     static final class FullIdSubject {
@@ -235,24 +264,18 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
 
 
         void appendNum(String s) {
-            if (!isCommaInserted) // append to the cable id
-            {
-                boolean lastStateValid = isCableIdValid();
-                currCableId += s;
-                if (isCableIdValid())
-                    idStateChangeListener.onCableIdInvalid();
-                if (lastStateValid && !isCableIdValid()) // if last state valid and now invalid
-                    idStateChangeListener.onFullIdInvalid();
-            } else                  // append the the cabin id
-            {
-                boolean lastStateValid = isFullIdValid();
+            boolean lastCabinState = isCabinIdValid();
+            boolean lastCableState = isCableIdValid();
+            if (isCommaInserted) {
+                cabinView.append(s);
                 currCabinId += s;
-                if (isCabinIdValid())
-                    idStateChangeListener.onFullIdValid();
-                if (lastStateValid && !isFullIdValid()) // if last state valid and now invalid
-                    idStateChangeListener.onFullIdInvalid();
+            } else {
+                cableView.append(s);
+                currCableId += s;
             }
-            cableView.append(s); // append number at the end
+            boolean currCabinState = isCabinIdValid();
+            boolean currCableState = isCableIdValid();
+            updateListeners(lastCabinState, lastCableState, currCabinState, currCableState);
         }
 
         boolean insertComma() {
@@ -292,6 +315,11 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
             this.type = type;
             boolean currCabinState = isCabinIdValid();
             boolean currCableState = isCableIdValid();
+            updateListeners(lastCabinState, lastCableState, currCabinState, currCableState);
+        }
+
+        private void updateListeners(boolean lastCabinState, boolean lastCableState,
+                                     boolean currCabinState, boolean currCableState) {
             if (lastCableState && !lastCabinState && currCabinState)
                 idStateChangeListener.onFullIdValid();
             else if (lastCableState && lastCabinState && currCableState && !currCabinState)
@@ -302,7 +330,6 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
                 idStateChangeListener.onCableIdValid();
         }
 
-
         void reset() {
             currCabinId = "";
             currCableId = "";
@@ -310,4 +337,9 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
         }
     }
 
+
+    public interface FragCallback
+    {
+        void onIdValid(String fullId);
+    }
 }
