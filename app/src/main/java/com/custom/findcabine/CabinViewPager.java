@@ -21,7 +21,7 @@ public class CabinViewPager extends ViewPager {
     }
 
 
-/*    @Override
+    @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
         int height = 0;
@@ -37,5 +37,5 @@ public class CabinViewPager extends ViewPager {
         }
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }*/
+    }
 }

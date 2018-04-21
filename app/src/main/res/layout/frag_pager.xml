@@ -12,5 +12,8 @@
     </com.custom.findcabine.CabinTextRepresentation>
 
 
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp"
 
 </LinearLayout>

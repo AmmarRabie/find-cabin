@@ -1,6 +1,7 @@
 package com.custom.findcabine;
 
 import android.app.Dialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -108,11 +109,15 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
 
     private void updateToCopper() {
         typeView.setText(R.string.copper);
+        typeView.setTextColor(getResources().getColor(R.color.color_CooperColor));
+        typeView.setTypeface(null, Typeface.NORMAL);
         fullIdSubject.changeType(CableType.COPPER);
     }
 
     private void updateToFiber() {
         typeView.setText(R.string.fiber);
+        typeView.setTextColor(getResources().getColor(R.color.color_FiberColor));
+        typeView.setTypeface(null, Typeface.BOLD);
         fullIdSubject.changeType(CableType.FIBER);
     }
 

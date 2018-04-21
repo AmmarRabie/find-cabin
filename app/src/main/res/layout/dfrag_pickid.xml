@@ -39,15 +39,15 @@
                 android:paddingRight="12dp">
 
 
-
                 <TextView
                     android:id="@+id/dfragPickId_currCableId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/s_cableId"
-                    android:textColor="@color/colorAccent"
-                    android:textAppearance="?android:textAppearanceLarge" />
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/dfragPickId_currCabinId"
@@ -55,7 +55,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textAppearance="?android:textAppearanceLarge"
-                    android:textColor="#000000" />
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
@@ -175,10 +176,10 @@
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@color/colorNum"
                     android:textStyle="bold"
-                    fbutton:fButtonColor="@color/fbutton_color_wet_asphalt"
                     fbutton:cornerRadius="5dp"
+                    fbutton:fButtonColor="@color/fbutton_color_wet_asphalt"
                     fbutton:shadowEnabled="true"
-                    fbutton:shadowHeight="7dp" />
+                    fbutton:shadowHeight="10dp" />
 
                 <!--<Space />-->
 

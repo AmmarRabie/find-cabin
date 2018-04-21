@@ -17,8 +17,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
-import java.util.HashMap;
-
 public class MainActivity extends AppCompatActivity implements
         OnMapReadyCallback
         , AAH_FabulousFragment.Callbacks
@@ -142,5 +140,4 @@ public class MainActivity extends AppCompatActivity implements
 
 
     }
-
 }
