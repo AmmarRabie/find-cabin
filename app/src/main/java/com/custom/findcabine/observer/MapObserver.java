@@ -55,33 +55,4 @@ public class MapObserver extends CabinObserver {
         }
     }
 
-
-    /**
-     * represents a unique id for the cabin as the id can't be repeated with the same type
-     */
-    public static final class CabinIdType {
-        String id;
-        CableType type;
-
-        public CabinIdType(String id, CableType type) {
-            this.id = id;
-            this.type = type;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public CableType getType() {
-            return type;
-        }
-
-        public void setType(CableType type) {
-            this.type = type;
-        }
-    }
 }
