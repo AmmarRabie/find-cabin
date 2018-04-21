@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.allattentionhere.fabulousfilter.AAH_FabulousFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import info.hoang8f.widget.FButton;
 
@@ -118,6 +119,7 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     private void onClearNumbersClicked(View view) {
         mCableIdView.setText("");
         mCabinIdView.setText("");
+        mFullIdParentView.setBackground(getResources().getDrawable(R.drawable.num_invalid));
         commaDoneView.setImageResource(R.drawable.btn_comma);
         commaDoneView.setClickable(false);
         commaDoneView.setEnabled(false);
@@ -138,7 +140,7 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
         mFullIdParentView.setBackground(getResources().getDrawable(R.drawable.num_valid));
         commaDoneView.setEnabled(true); // make the done btn clickable
         commaDoneView.setClickable(true); // make the done btn clickable
-        callback.onIdValid(fullIdSubject.currCableId + "," + fullIdSubject.currCabinId);
+        callback.onIdValid(fullIdSubject.currCableId + "," + fullIdSubject.currCabinId, fullIdSubject.type);
     }
 
     @Override
@@ -165,11 +167,9 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     private void onChangeTypeClick(View view) {
         if (changeTypeView.isShadowEnabled()) { // shadow enabled that mean the button should be now fiber
             updateToFiber();
-            fullIdSubject.changeType(CableType.FIBER);
             changeTypeView.setShadowEnabled(false);
         } else {
             updateToCopper();
-            fullIdSubject.changeType(CableType.COPPER);
             changeTypeView.setShadowEnabled(true);
             changeTypeView.setShadowHeight(shadowHeight);
         }
@@ -197,7 +197,7 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
             public void onClick(View view) {
                 if (view.isEnabled()) {
                     if (fullIdSubject.isFullIdValid())
-                        closeFilter(fullIdSubject.currCableId + "," + fullIdSubject.currCabinId);
+                        sendResultAndClose();
                     else if (fullIdSubject.insertComma()) {
                         commaDoneView.setImageResource(R.drawable.ic_mydone);
                         commaDoneView.setEnabled(false);
@@ -215,6 +215,14 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
             }
         });
         commaDoneView.setEnabled(false);
+    }
+
+    private void sendResultAndClose() {
+        HashMap<String, Object> map = new HashMap<>();
+        String id = fullIdSubject.currCableId + "," + fullIdSubject.currCabinId;
+        map.put("id",id);
+        map.put("type", fullIdSubject.type);
+        closeFilter(id);
     }
 
     private void initCloseDialogBtn() {
@@ -240,6 +248,10 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     public void onPause() {
         super.onPause();
         getActivity().findViewById(R.id.mainActivity_map).setVisibility(View.VISIBLE);
+    }
+
+    public interface FragCallback {
+        void onIdValid(String fullId, CableType type);
     }
 
     static final class FullIdSubject {
@@ -290,7 +302,20 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
 
         public boolean isCableIdValid() {
             for (Cabin cabin : validIds) {
-                if (cabin.getCableId().equals(currCableId.trim()))
+                boolean sameId = cabin.getCableId().equals(currCableId.trim());
+                boolean sameType = cabin.getType().equals(type);
+                if (sameId && sameType)
+                    return true;
+            }
+            return false;
+        }
+
+
+        public boolean isCabinIdValid() {
+            for (Cabin cabin : validIds) {
+                boolean sameId = cabin.getFullId().equals(currCableId + "," + currCabinId);
+                boolean sameType = cabin.getType().name().equals(type.name());
+                if (sameId && sameType)
                     return true;
             }
             return false;
@@ -298,14 +323,6 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
 
         public boolean isFullIdValid() {
             return isCableIdValid() && isCabinIdValid();
-        }
-
-        public boolean isCabinIdValid() {
-            for (Cabin cabin : validIds) {
-                if (cabin.getCabinId().equals(currCabinId.trim()))
-                    return true;
-            }
-            return false;
         }
 
         public void changeType(CableType type) {
@@ -319,13 +336,13 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
 
         private void updateListeners(boolean lastCabinState, boolean lastCableState,
                                      boolean currCabinState, boolean currCableState) {
-            if (lastCableState && !lastCabinState && currCabinState)
+            if (currCableState && currCabinState)
                 idStateChangeListener.onFullIdValid();
             else if (lastCableState && lastCabinState && currCableState && !currCabinState)
                 idStateChangeListener.onFullIdInvalid();
             else if (lastCableState && !currCableState)
                 idStateChangeListener.onCableIdInvalid();
-            else if (!lastCableState && currCableState)
+            else if (currCableState)
                 idStateChangeListener.onCableIdValid();
         }
 
@@ -334,11 +351,5 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
             currCableId = "";
             isCommaInserted = false;
         }
-    }
-
-
-    public interface FragCallback
-    {
-        void onIdValid(String fullId);
     }
 }

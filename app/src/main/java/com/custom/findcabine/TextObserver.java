@@ -8,16 +8,16 @@ import android.support.v4.view.ViewPager;
 
 public class TextObserver extends CabinObserver {
 
-    private ViewPager mTextView;
+    private ViewPager mViewPager;
 
     public TextObserver(CabinsSubject subject_, ViewPager textView) {
         super(subject_);
         subject.attach(this);
-        this.mTextView = textView;
+        this.mViewPager = textView;
     }
 
     @Override
     void update() {
-        mTextView.setCurrentItem(subject.getCurrSelected(), true);
+        mViewPager.setCurrentItem(subject.getCurrSelected(), true);
     }
 }

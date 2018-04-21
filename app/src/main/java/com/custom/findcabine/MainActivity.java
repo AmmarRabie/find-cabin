@@ -17,22 +17,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity implements
         OnMapReadyCallback
         , AAH_FabulousFragment.Callbacks
-    , SearchAnimatedFragment.FragCallback
+        , SearchAnimatedFragment.FragCallback {
 
- {
-
-    //
     private SearchAnimatedFragment dialogFrag;
-    private FloatingActionButton fab;
-    private ViewPager mViewPager;
-    private CabinPagerAdapter mCabinPagerAdapter;
-    private TextObserver textObserver;
-    private MapObserver mapObserver;
     private CabinsSubject cabins;
-
+    private int lastPositionBeforeSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +34,11 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         cabins = new CabinsSubject(AppUtil.getInitialCabins());
 
-        fab = (FloatingActionButton) findViewById(R.id.mainActivity_fab);
-//        mTextRepresentationView = findViewById(R.id.mainActivity_textRepresentation);
-        mViewPager = (ViewPager) findViewById(R.id.vpPager);
+        FloatingActionButton fab = findViewById(R.id.mainActivity_fab);
+        dialogFrag = SearchAnimatedFragment.newInstance();
+        dialogFrag.setParentFab(fab);
+
+        ViewPager mViewPager = findViewById(R.id.vpPager);
 
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -51,15 +47,8 @@ public class MainActivity extends AppCompatActivity implements
                 cabins.setCurrSelected(position);
             }
         });
-
-        mCabinPagerAdapter = new CabinPagerAdapter(getSupportFragmentManager(), AppUtil.getInitialCabins().size());
+        CabinPagerAdapter mCabinPagerAdapter = new CabinPagerAdapter(getSupportFragmentManager(), cabins.getSize());
         mViewPager.setAdapter(mCabinPagerAdapter);
-
-        textObserver = new TextObserver(cabins, mViewPager);
-
-        dialogFrag = SearchAnimatedFragment.newInstance();
-        dialogFrag.setParentFab(fab);
-
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,21 +57,19 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
+        new TextObserver(cabins, mViewPager);
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mainActivity_map);
         mapFragment.getMapAsync(this);
-
-        findViewById(R.id.mainActivity_fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showSearchDialog();
-            }
-        });
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mapObserver = new MapObserver(cabins, googleMap);
+        new MapObserver(cabins, googleMap);
+
+        // after all observers
+        cabins.setCurrSelected(0);
     }
 
 
@@ -103,28 +90,27 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void showSearchDialog() {
-        dialogFrag.show(getSupportFragmentManager(),dialogFrag.getTag());
+        dialogFrag.show(getSupportFragmentManager(), dialogFrag.getTag());
         lastPositionBeforeSearch = cabins.getCurrSelected();
     }
-
 
     @Override
     public void onResult(Object result) {
         String resultedString = result.toString();
         Toast.makeText(this, resultedString, Toast.LENGTH_LONG).show();
-        if (resultedString.equals("closed") || resultedString.equals("swiped_down"))
-        {
+        if (resultedString.equals("closed") || resultedString.equals("swiped_down")) {
             cabins.setCurrSelected(lastPositionBeforeSearch);
+            return;
         }
-        // resultedString = the id of the search
-//        cabins.setCurrSelected(resultedString);
+/*        HashMap<String, Object> resultMap = new HashMap<>();
+        MapObserver.CabinIdType cabinIdType = new MapObserver.CabinIdType
+                (resultMap.get("id").toString(), ((CableType) resultMap.get("type")));
+        cabins.setCurrSelected(cabinIdType.id,cabinIdType.getType());*/
     }
 
-    private int lastPositionBeforeSearch;
-
     @Override
-    public void onIdValid(String fullId) {
-        cabins.setCurrSelected(fullId);
+    public void onIdValid(String fullId, CableType type) {
+        cabins.setCurrSelected(fullId, type);
     }
 
 
@@ -139,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements
         // Returns total number of pages.
         @Override
         public int getCount() {
-            return NUM_ITEMS - 1;
+            return NUM_ITEMS;
         }
 
         // Returns the fragment to display for a particular page.

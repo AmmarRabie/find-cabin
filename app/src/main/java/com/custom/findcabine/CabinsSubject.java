@@ -46,8 +46,8 @@ public class CabinsSubject {
         notifyAllObservers();
     }
 
-    public void setCurrSelected(String fullId) {
-        setCurrSelected(getPositionOf(fullId));
+    public void setCurrSelected(String fullId, CableType type) {
+        setCurrSelected(getPositionOf(fullId, type));
     }
 
 
@@ -74,15 +74,19 @@ public class CabinsSubject {
     }
 
 
-    public int getPositionOf(String cabinId) {
+    public int getPositionOf(String cabinId, CableType type) {
         for (int i = 0; i < cabins.size(); i++) {
-            if (cabins.get(i).getFullId().equals(cabinId)) {
+            boolean sameId = cabins.get(i).getFullId().equals(cabinId);
+            boolean sameType = cabins.get(i).getType().name().equals(type.name());
+            if (sameId && sameType)
                 return i;
-            }
         }
         Log.w(TAG, "getPositionOf: the cabinId " + cabinId + "not exist");
         return -1;
     }
 
 
+    public int getSize() {
+        return cabins.size();
+    }
 }
