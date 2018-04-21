@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.allattentionhere.fabulousfilter.AAH_FabulousFragment;
 import com.custom.findcabine.common.AppUtil;
+import com.custom.findcabine.common.Cabin;
 import com.custom.findcabine.common.CableType;
 import com.custom.findcabine.observer.MapObserver;
 import com.custom.findcabine.observer.TextObserver;
@@ -21,6 +22,10 @@ import com.custom.findcabine.view.PagerFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements
         OnMapReadyCallback
@@ -69,7 +74,30 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        new MapObserver(cabins, googleMap);
+
+        HashMap<Integer,Marker> map = new HashMap<>();
+        for (int i = 0; i < cabins.getSize(); i++) {
+            Cabin currCabin = cabins.getCabinAt(i);
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .snippet(currCabin.getAddress())
+                    .position(currCabin.getLocation())
+                    .title(currCabin.getFullId())
+                    .icon(AppUtil.getIconForCabin(currCabin));
+
+            Marker marker = googleMap.addMarker(markerOptions);
+            marker.setTag(i);
+            map.put(i,marker);
+
+            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    cabins.setCurrSelected((int) marker.getTag());
+                    return false; // to also view the snippet
+                }
+            });
+        }
+
+        new MapObserver(cabins, googleMap,map);
 
         // after all observers
         cabins.setCurrSelected(0);

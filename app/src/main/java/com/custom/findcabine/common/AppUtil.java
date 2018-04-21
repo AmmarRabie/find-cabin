@@ -1,6 +1,11 @@
 package com.custom.findcabine.common;
 
+import android.graphics.drawable.Icon;
+
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
@@ -52,7 +57,7 @@ public class AppUtil {
                 "ش-برنشت من المساكن", "ش-عواد الصناديلى من المساكن", "ش-عمر فروق من المساكن", "ش-مسجد الهدى من المساكن",
 
         };
-        
+
         CableType[] types = {
                 CableType.COPPER, CableType.FIBER, CableType.COPPER, CableType.FIBER,
                 CableType.FIBER, CableType.FIBER, CableType.FIBER, CableType.COPPER,
@@ -70,7 +75,7 @@ public class AppUtil {
                 CableType.COPPER, CableType.COPPER, CableType.COPPER, CableType.COPPER,
                 CableType.COPPER, CableType.COPPER, CableType.COPPER, CableType.COPPER,
                 CableType.COPPER, CableType.COPPER, CableType.COPPER, CableType.COPPER,
-                
+
         };
 
         LatLng[] locations = {
@@ -97,6 +102,13 @@ public class AppUtil {
             cabinesList.add(currCabin);
         }
         return cabinesList;
+    }
+
+
+    public static BitmapDescriptor getIconForCabin(Cabin cabin) {
+        BitmapDescriptor copperIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
+        BitmapDescriptor fiberIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+        return cabin.getType() == CableType.COPPER ? copperIcon : fiberIcon;
     }
 
 }
