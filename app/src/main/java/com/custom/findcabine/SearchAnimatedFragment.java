@@ -107,12 +107,12 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     }
 
     private void updateToCopper() {
-        typeView.setText(CableType.COPPER.name());
+        typeView.setText(R.string.copper);
         fullIdSubject.changeType(CableType.COPPER);
     }
 
     private void updateToFiber() {
-        typeView.setText(CableType.FIBER.name());
+        typeView.setText(R.string.fiber);
         fullIdSubject.changeType(CableType.FIBER);
     }
 

@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_weight="0"
-        android:text="COPPER"
+        android:text="@string/copper"
         android:textAppearance="?android:textAppearanceLarge"
         android:textStyle="bold"
         tools:text="COPPER" />

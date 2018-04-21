@@ -50,12 +50,13 @@ public class CabinTextRepresentation extends LinearLayout {
         switch (type) {
             case FIBER:
                 rootView.setBackgroundResource(R.color.color_FiberColor);
+                typeView.setText(R.string.fiber);
                 break;
             case COPPER:
                 rootView.setBackgroundResource(R.color.color_CooperColor);
+                typeView.setText(R.string.copper);
                 break;
         }
-        typeView.setText(type.name());
         updateTextColors(type);
     }
 
