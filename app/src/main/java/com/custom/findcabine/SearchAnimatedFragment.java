@@ -125,6 +125,8 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
         mCabinIdView.setText("");
         ((TextView) contentView.findViewById(R.id.dfragPickId_currCableId)).setTextColor(getResources().getColor(R.color.white));
         ((TextView) contentView.findViewById(R.id.dfragPickId_currCabinId)).setTextColor(getResources().getColor(R.color.white));
+        ((TextView) contentView.findViewById(R.id.dfragPickId_currCabinId)).setTextColor(getResources().getColor(android.R.color.black));
+        ((TextView) contentView.findViewById(R.id.dfragPickId_currCableId)).setTextColor(getResources().getColor(android.R.color.black));
         mFullIdParentView.setBackground(getResources().getDrawable(R.drawable.num_invalid));
         commaDoneView.setImageResource(R.drawable.btn_comma);
         commaDoneView.setClickable(false);
@@ -136,6 +138,8 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     @Override
     public void onCableIdValid() {
 //        Toast.makeText(getContext(), "cable id valid", Toast.LENGTH_SHORT).show();
+        if (fullIdSubject.isCommaInserted)
+            return;
         commaDoneView.setEnabled(true);
         commaDoneView.setClickable(true);
     }
@@ -144,8 +148,8 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     @Override
     public void onFullIdValid() {
         mFullIdParentView.setBackground(getResources().getDrawable(R.drawable.num_valid));
-        ((TextView) contentView.findViewById(R.id.dfragPickId_currCabinId)).setTextColor(getResources().getColor(android.R.color.black));
-        ((TextView) contentView.findViewById(R.id.dfragPickId_currCableId)).setTextColor(getResources().getColor(android.R.color.black));
+        ((TextView) contentView.findViewById(R.id.dfragPickId_currCableId)).setTextColor(getResources().getColor(R.color.white));
+        ((TextView) contentView.findViewById(R.id.dfragPickId_currCabinId)).setTextColor(getResources().getColor(R.color.white));
         commaDoneView.setEnabled(true); // make the done btn clickable
         commaDoneView.setClickable(true); // make the done btn clickable
         callback.onIdValid(fullIdSubject.currCableId + "," + fullIdSubject.currCabinId, fullIdSubject.type);
@@ -342,6 +346,12 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
 
         private void updateListeners(boolean lastCabinState, boolean lastCableState,
                                      boolean currCabinState, boolean currCableState) {
+
+            // call the validation if there is a transition to valid (invalid -> valid OR valid -> valid)
+            // call the invalidation if there is a transition from valid to invalid (valid -> invalid)
+            // the full id has more priority than cable state
+            // I update the cabin validation to check the whole full id
+
             if (currCableState && currCabinState)
                 idStateChangeListener.onFullIdValid();
             else if (lastCableState && lastCabinState && currCableState && !currCabinState)
