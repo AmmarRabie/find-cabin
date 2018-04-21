@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.allattentionhere.fabulousfilter.AAH_FabulousFragment;
 import com.custom.findcabine.common.AppUtil;
@@ -128,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onResult(Object result) {
         String resultedString = result.toString();
-        Toast.makeText(this, resultedString, Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, resultedString, Toast.LENGTH_LONG).show();
         if (resultedString.equals("closed") || resultedString.equals("swiped_down")) {
             cabins.setCurrSelected(lastPositionBeforeSearch);
             return;

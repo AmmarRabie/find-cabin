@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.allattentionhere.fabulousfilter.AAH_FabulousFragment;
 import com.custom.findcabine.abstrct.IdStateChangeListener;
@@ -31,7 +30,6 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     private static final String TAG = "SearchAnimatedFragment";
 
     private static int shadowHeight;
-    private String mCurrCabinNumber;
     private TextView mCableIdView;
     private TextView mCabinIdView;
     private ViewGroup mFullIdParentView;
@@ -40,11 +38,8 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     private ImageView closeDialogView;
     private FButton changeTypeView;
     private FullIdSubject fullIdSubject;
-    private boolean isCableIdJustValid = false;
-    private boolean isFullIdValid = false;
-    private boolean isCableIdValid = false;
-    private boolean commaInserted = false;
     private FragCallback callback;
+    private View contentView;
 
 
     public SearchAnimatedFragment() {
@@ -60,7 +55,7 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
 
     @Override
     public void setupDialog(Dialog dialog, int style) {
-        View contentView = View.inflate(getContext(), R.layout.dfrag_pickid, null);
+        contentView = View.inflate(getContext(), R.layout.dfrag_pickid, null);
         commaDoneView = contentView.findViewById(R.id.imgbtn_commaDone);
         closeDialogView = contentView.findViewById(R.id.dfragPickId_close);
         mCableIdView = contentView.findViewById(R.id.dfragPickId_currCableId);
@@ -128,6 +123,8 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     private void onClearNumbersClicked(View view) {
         mCableIdView.setText("");
         mCabinIdView.setText("");
+        ((TextView) contentView.findViewById(R.id.dfragPickId_currCableId)).setTextColor(getResources().getColor(R.color.white));
+        ((TextView) contentView.findViewById(R.id.dfragPickId_currCabinId)).setTextColor(getResources().getColor(R.color.white));
         mFullIdParentView.setBackground(getResources().getDrawable(R.drawable.num_invalid));
         commaDoneView.setImageResource(R.drawable.btn_comma);
         commaDoneView.setClickable(false);
@@ -138,7 +135,7 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
 
     @Override
     public void onCableIdValid() {
-        Toast.makeText(getContext(), "cable id valid", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "cable id valid", Toast.LENGTH_SHORT).show();
         commaDoneView.setEnabled(true);
         commaDoneView.setClickable(true);
     }
@@ -147,6 +144,8 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     @Override
     public void onFullIdValid() {
         mFullIdParentView.setBackground(getResources().getDrawable(R.drawable.num_valid));
+        ((TextView) contentView.findViewById(R.id.dfragPickId_currCabinId)).setTextColor(getResources().getColor(android.R.color.black));
+        ((TextView) contentView.findViewById(R.id.dfragPickId_currCableId)).setTextColor(getResources().getColor(android.R.color.black));
         commaDoneView.setEnabled(true); // make the done btn clickable
         commaDoneView.setClickable(true); // make the done btn clickable
         callback.onIdValid(fullIdSubject.currCableId + "," + fullIdSubject.currCabinId, fullIdSubject.type);
@@ -154,7 +153,7 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
 
     @Override
     public void onCableIdInvalid() {
-        Toast.makeText(getContext(), "cable id invalid", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "cable id invalid", Toast.LENGTH_SHORT).show();
         commaDoneView.setEnabled(false); // make comma btn not clickable
         commaDoneView.setClickable(false); // make comma btn not clickable
     }
@@ -162,6 +161,8 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     @Override
     public void onFullIdInvalid() {
         mFullIdParentView.setBackground(getResources().getDrawable(R.drawable.num_invalid));
+        ((TextView) contentView.findViewById(R.id.dfragPickId_currCabinId)).setTextColor(getResources().getColor(android.R.color.black));
+        ((TextView) contentView.findViewById(R.id.dfragPickId_currCableId)).setTextColor(getResources().getColor(android.R.color.black));
         commaDoneView.setEnabled(false); // make done btn not clickable
         commaDoneView.setClickable(false); // make done btn not clickable
     }
@@ -214,12 +215,6 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
                     } else {
                         Log.e(TAG, "onClick: full id is not valid and can't insert comma or exit");
                     }
-                } else if (!view.isClickable())   // the bnt is not enabled
-                {
-                    if (isCableIdValid)
-                        Toast.makeText(getContext(), "cabin Id not valid", Toast.LENGTH_LONG).show();
-                    else
-                        Toast.makeText(getContext(), "cable id not valid", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -229,7 +224,7 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     private void sendResultAndClose() {
         HashMap<String, Object> map = new HashMap<>();
         String id = fullIdSubject.currCableId + "," + fullIdSubject.currCabinId;
-        map.put("id",id);
+        map.put("id", id);
         map.put("type", fullIdSubject.type);
         closeFilter(id);
     }
@@ -250,13 +245,15 @@ public class SearchAnimatedFragment extends AAH_FabulousFragment implements
     @Override
     public void onStart() {
         super.onStart();
-        getActivity().findViewById(R.id.mainActivity_map).setVisibility(View.GONE);
+        if (getActivity() != null)
+            getActivity().findViewById(R.id.mainActivity_map).setVisibility(View.GONE);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        getActivity().findViewById(R.id.mainActivity_map).setVisibility(View.VISIBLE);
+        if (getActivity() != null)
+            getActivity().findViewById(R.id.mainActivity_map).setVisibility(View.VISIBLE);
     }
 
     public interface FragCallback {

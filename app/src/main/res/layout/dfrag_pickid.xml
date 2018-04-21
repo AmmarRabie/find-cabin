@@ -4,12 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    android:background="@color/white"
+    android:background="@color/fbutton_color_transparent"
+
     <RelativeLayout
         android:id="@+id/mainDialogView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/fbutton_color_transparent"
+        android:background="@color/white"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="8dp">
@@ -47,7 +48,7 @@
                     android:gravity="center"
                     android:text="@string/s_cableId"
                     android:textAppearance="?android:textAppearanceLarge"
-                    android:textColor="@color/white"
+                    android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
                 <TextView
@@ -56,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textAppearance="?android:textAppearanceLarge"
-                    android:textColor="@color/white"
+                    android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
 
