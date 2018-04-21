@@ -1,10 +1,10 @@
-package com.custom.findcabine;
+package com.custom.findcabine.abstrct;
 
 /**
  * Created by AmmarRabie on 20/04/2018.
  */
 
-interface IdStateChangeListener {
+public interface IdStateChangeListener {
 
     void onCableIdValid();
 

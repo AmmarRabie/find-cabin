@@ -1,12 +1,14 @@
-package com.custom.findcabine;
+package com.custom.findcabine.view;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.custom.findcabine.R;
+import com.custom.findcabine.common.CableType;
 
 /**
  * Created by AmmarRabie on 19/04/2018.

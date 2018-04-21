@@ -11,6 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.allattentionhere.fabulousfilter.AAH_FabulousFragment;
+import com.custom.findcabine.abstrct.IdStateChangeListener;
+import com.custom.findcabine.common.AppUtil;
+import com.custom.findcabine.common.Cabin;
+import com.custom.findcabine.common.CableType;
 
 import java.util.ArrayList;
 import java.util.HashMap;

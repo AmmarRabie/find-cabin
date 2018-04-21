@@ -1,4 +1,6 @@
-package com.custom.findcabine;
+package com.custom.findcabine.abstrct;
+
+import com.custom.findcabine.CabinsSubject;
 
 /**
  * Created by AmmarRabie on 19/04/2018.
@@ -13,6 +15,6 @@ public abstract class CabinObserver {
         this.subject = subject;
     }
 
-    abstract void update();
+    public abstract void update();
 
 }

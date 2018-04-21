@@ -1,4 +1,4 @@
-package com.custom.findcabine;
+package com.custom.findcabine.common;
 
 import com.google.android.gms.maps.model.LatLng;
 

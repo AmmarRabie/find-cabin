@@ -9,13 +9,13 @@
     tools:context="com.custom.findcabine.MainActivity">
 
 
-    <com.custom.findcabine.CabinViewPager
+    <com.custom.findcabine.test.CabinViewPager
         android:id="@+id/vpPager"
         android:layout_width="match_parent"
         android:layout_height= "wrap_content">
 
 
-    </com.custom.findcabine.CabinViewPager>
+    </com.custom.findcabine.test.CabinViewPager>
 
 
     <RelativeLayout

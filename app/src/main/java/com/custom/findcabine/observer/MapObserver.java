@@ -1,7 +1,9 @@
-package com.custom.findcabine;
+package com.custom.findcabine.observer;
 
-import android.content.Intent;
-
+import com.custom.findcabine.abstrct.CabinObserver;
+import com.custom.findcabine.CabinsSubject;
+import com.custom.findcabine.common.Cabin;
+import com.custom.findcabine.common.CableType;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -11,7 +13,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.HashMap;
-import java.util.Set;
 
 /**
  * Created by AmmarRabie on 19/04/2018.
@@ -35,13 +36,13 @@ public class MapObserver extends CabinObserver {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 subject.setCurrSelected(Integer.valueOf(marker.getTag().toString()));
-                return true;
+                return false; // to also view the snippet
             }
         });
     }
 
     @Override
-    void update() {
+    public void update() {
         Cabin updatedCabin = subject.getCurrCabin();
         CabinIdType cabinIdType = new CabinIdType(updatedCabin.getFullId(),updatedCabin.getType());
         LatLng location = updatedCabin.getLocation();
@@ -49,7 +50,7 @@ public class MapObserver extends CabinObserver {
         if (marker == null)
         {
             BitmapDescriptor copperIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
-            BitmapDescriptor fiberIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
+            BitmapDescriptor fiberIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
             MarkerOptions markerOptions = new MarkerOptions()
                     .position(location)
                     .title(cabinIdType.getId())
@@ -61,7 +62,7 @@ public class MapObserver extends CabinObserver {
             cabinMarkers.put(new CabinIdType(cabinIdType.getId(), cabinIdType.getType()), marker);
             lastSelectedMarkerKey = cabinIdType.getId();
         }
-        mMapView.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 21));
+        mMapView.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
         inVisibleAll();
         marker.setVisible(true);
     }
@@ -69,7 +70,7 @@ public class MapObserver extends CabinObserver {
     private void inVisibleAll() {
         for (CabinIdType key: cabinMarkers.keySet())
         {
-            cabinMarkers.get(key).setVisible(false);
+//            cabinMarkers.get(key).setVisible(false);
         }
     }
 

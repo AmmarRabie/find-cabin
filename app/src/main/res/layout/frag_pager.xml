@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.custom.findcabine.CabinTextRepresentation
+    <com.custom.findcabine.view.CabinTextRepresentation
         android:id="@+id/pagerFrag_textRepresentation"
         android:layout_width="match_parent"
         android:padding="8dp"
         android:layout_height="wrap_content">
 
-    </com.custom.findcabine.CabinTextRepresentation>
+    </com.custom.findcabine.view.CabinTextRepresentation>
 
 
         android:paddingLeft="8dp"

@@ -1,4 +1,4 @@
-package com.custom.findcabine;
+package com.custom.findcabine.common;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -74,21 +74,21 @@ public class AppUtil {
         };
 
         LatLng[] locations = {
-                new LatLng(324, 646), new LatLng(43, 465), new LatLng(564, 646), new LatLng(654, 467),
-                new LatLng(564, 564), new LatLng(876, 546), new LatLng(876, 2315), new LatLng(5646, 676),
-                new LatLng(319, 753), new LatLng(462, 46), new LatLng(762, 128), new LatLng(5465, 564),
-                new LatLng(138, 456), new LatLng(7654, 46), new LatLng(648, 133), new LatLng(2146, 467),
+                new LatLng(29.963322, 31.9), new LatLng(29.863322, 31.9), new LatLng(29.763322, 31.9), new LatLng(29.663322, 31.9),
+                new LatLng(29.963322, 31.7), new LatLng(29.863322, 31.7), new LatLng(29.763322, 31.7), new LatLng(29.663322, 31.7),
+                new LatLng(29.963322, 31.5), new LatLng(29.863322, 31.5), new LatLng(29.763322, 31.5), new LatLng(29.663322, 31.5),
+                new LatLng(29.963322, 31.3), new LatLng(29.863322, 31.3), new LatLng(29.763322, 31.3), new LatLng(29.663322, 31.3),
 
 
-                new LatLng(138, 456), new LatLng(7654, 46), new LatLng(648, 133), new LatLng(2146, 467),
-                new LatLng(138, 456), new LatLng(7654, 46), new LatLng(648, 133), new LatLng(2146, 467),
-                new LatLng(138, 456), new LatLng(7654, 46), new LatLng(648, 133), new LatLng(2146, 467),
-                new LatLng(138, 456), new LatLng(7654, 46), new LatLng(648, 133), new LatLng(2146, 467),
+                new LatLng(29.563322, 31.9), new LatLng(29.463322, 31.9), new LatLng(29.363322, 31.9), new LatLng(29.263322, 31.9),
+                new LatLng(29.563322, 31.7), new LatLng(29.463322, 31.7), new LatLng(29.363322, 31.7), new LatLng(29.263322, 31.7),
+                new LatLng(29.563322, 31.5), new LatLng(29.463322, 31.5), new LatLng(29.363322, 31.5), new LatLng(29.263322, 31.5),
+                new LatLng(29.563322, 31.3), new LatLng(29.463322, 31.3), new LatLng(29.363322, 31.3), new LatLng(29.263322, 31.3),
 
-                new LatLng(138, 456), new LatLng(7654, 46), new LatLng(648, 133), new LatLng(2146, 467),
-                new LatLng(138, 456), new LatLng(7654, 46), new LatLng(648, 133), new LatLng(2146, 467),
-                new LatLng(138, 456), new LatLng(7654, 46), new LatLng(648, 133), new LatLng(2146, 467),
-                new LatLng(138, 456), new LatLng(7654, 46), new LatLng(648, 133), new LatLng(2146, 467),
+                new LatLng(29.163322, 31.9), new LatLng(28.8, 31.9), new LatLng(28.6, 31.9), new LatLng(28.4, 31.9),
+                new LatLng(29.163322, 31.7), new LatLng(28.8, 31.7), new LatLng(28.6, 31.7), new LatLng(28.4, 31.7),
+                new LatLng(29.163322, 31.5), new LatLng(28.8, 31.5), new LatLng(28.6, 31.5), new LatLng(28.4, 31.5),
+                new LatLng(29.163322, 31.3), new LatLng(28.8, 31.3), new LatLng(28.6, 31.3), new LatLng(28.4, 31.3),
 
         };
 

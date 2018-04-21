@@ -1,4 +1,4 @@
-package com.custom.findcabine;
+package com.custom.findcabine.test;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

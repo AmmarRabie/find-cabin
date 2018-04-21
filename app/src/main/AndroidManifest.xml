@@ -29,7 +29,7 @@
         </activity>
 
 
-        <activity android:name=".MapTestActivity" android:exported="true">
+        <activity android:name=".test.MapTestActivity" android:exported="true">
 
 
         </activity>
